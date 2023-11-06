@@ -27,8 +27,12 @@
         ResultSet rs = pst.executeQuery();              
         if(rs.next())
         {
-            pst = conn.prepareStatement("update CONDUCTOR set Password='"+newpwd+"' where Username = '" + Conductor.uname + "';");
+            String sql = "UPDATE CONDUCTOR SET Password = ? WHERE Username = ?";
+            try (PreparedStatement pst = conn.prepareStatement(sql)) {
+            pst.setString(1, newpwd);
+            pst.setString(2, Conductor.uname);
             pst.executeUpdate();
+                }
             out.println("Password changed.");
         }
         else
