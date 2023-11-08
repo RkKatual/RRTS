@@ -1,0 +1,16 @@
+name: Example workflow for Maven using Snyk
+on: 
+  workflow_dispatch:
+jobs:
+  security:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_API: "https://app.eu.snyk.io/api"
+        # with:
+        #   command: monitor
+        #   args: --org=165a0d1f-fdb0-4b17-ab94-d518c5a9db46
