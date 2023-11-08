@@ -27,8 +27,12 @@
         ResultSet rs = pst.executeQuery();              
         if(rs.next())
         {
-            pst = conn.prepareStatement("update SUPERVISOR set Password='"+newpwd+"' where Username = '" + Supervisor.uname + "';");
-            pst.executeUpdate();
+            String sql = "UPDATE SUPERVISOR SET Password = ? WHERE Username = ?";
+            try (PreparedStatement pst = conn.prepareStatement(sql)) {
+                pst.setString(1, newpwd);
+                pst.setString(2, Supervisor.uname);
+                pst.executeUpdate();
+            }
             out.println("Password changed.");
         }
         else
